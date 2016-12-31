@@ -3,9 +3,11 @@
 # RANDOM HOTDECK IMPUTATION
 
 
+#' @param backend Choose the backend for imputation.
+#' 
 #' @section Hot deck imputation:
 #' 
-#' 
+#'  
 #' \itemize{
 #' \item{\code{impute_rhd} The predictor variables in the \code{model} argument are used to split the data 
 #' set into groups prior to imputation (use \code{~ 1} to specify that no grouping is applied).}
@@ -29,16 +31,82 @@
 #'    a single donor.}
 #' } 
 #' 
-#' 
+#' @section Using the VIM backend:
 #'
+#' The \href{ https://CRAN.R-project.org/package=VIM}{VIM} package has efficient
+#' implementations of several popular imputation methods. In particular, its 
+#' random and sequential hotdeck implementation is faster and more
+#' memory-efficient than that of the current package. Moreover, \pkg{VIM} offers
+#' more fine-grained control over the imputation process then \pkg{simputation}.
+#' 
+#' If you have this package installed, it can be used by setting
+#' \code{backend="VIM"} for functions supporting this option. Alternatively, one
+#' can set \code{options(simputation.hdbackend="VIM")} so it becomes the
+#' default. 
+#' 
+#' 
+#' Simputation will map the simputation call to a function in the
+#' \pkg{VIM} package. In particular:
+#' 
+#'  \itemize{
+#'  \item{\code{impute_rhd} is mapped to \code{VIM::hotdeck} where imputed
+#'  variables are passed to the \code{variable} argument and the union of
+#'  predictor and grouping variables are passed to \code{domain_var}.
+#'  Extra arguments in \code{...} are passed to \code{VIM::hotdeck} as well.
+#'  Argument \code{pool} is ignored.}
+#'  \item{\code{impute_shd} is mapped to \code{VIM::hotdeck} where
+#'  imputed variables are passed to the \code{variable} argument, predictor
+#'  variables to \code{ord_var} and grouping variables to \code{domain_var}.
+#'  Extra arguments in \code{...} are passed to \code{VIM::hotdeck} as well.
+#'  Arguments \code{pool} and \code{order} are ignored. In \code{VIM} the donor pool
+#'  is determined on a per-variable basis, equivalent to setting \code{pool="univariate"}
+#'  with the simputation backend. \pkg{VIM} is LOCF-based. Differences between
+#'  \pkg{simputation} and \code{VIM} likely occurr when the sorting variables contain missings.}
+#'  \item{\code{impute_knn} is mapped to \code{VIM::kNN} where imputed variables
+#'  are passed to \code{variable}, predictor variables are passed to \code{dist_var}
+#'  and grouping variables are ignored with a message. 
+#'  Extra arguments in \code{...} are passed to \code{VIM::hotdeck} as well.
+#'  Argument \code{pool} is ignored.
+#'  Note that simputation  adheres stricktly to the Gower's original
+#'  definition of the distance measure, while \pkg{VIM} uses a generalized variant
+#'  that can take ordered factors into account.
+#'  }
+#' }
+#' By default, \pkg{VIM}'s imputation functions add indicator variables to the
+#' original data to trace what values have been imputed. This is switched off by
+#' default for consistency with the rest of the simputation package, but it may
+#' be turned on again by setting \code{imp_var=TRUE}.
+#' 
+#' 
+#' 
+#' 
 #'
 #' @rdname impute_
 #' @param pool Specify donor pool. See under 'Hot deck imputation'.
 #' @param prob \code{[numeric]} Sampling probability weights (passed through to
 #'   \code{\link[base]{sample}}). Must be of length \code{nrow(dat)}.
 #' @export
-impute_rhd <- function(dat, formula, pool=c("complete","univariate","multivariate"), prob, ...){
+impute_rhd <- function(dat, formula, pool=c("complete","univariate","multivariate")
+                       , prob, backend=getOption("simputation.hdbackend",default=c("simputation","VIM"))
+                       , ...){
   stopifnot(inherits(formula,"formula"))
+  backend <- match.arg(backend, choices = c("simputation","VIM"))
+
+  predicted <- get_imputed(formula, dat)
+  grps <- groups(dat,formula)
+  formula <- remove_groups(formula)
+  predictors <- get_predictors(formula, dat, one_ok = TRUE)
+  predictors <- unique(c(predictors, grps))
+
+  if ( backend == "VIM" ){ 
+    return(hd_vim(data=dat
+          , variable=predicted
+          , ord_var=NULL # no ordering in random hotdeck
+          , domain_var=predictors
+          , ...))
+  }
+  
+  
   pool <- match.arg(pool)
   
   rhd <- switch(pool
@@ -47,16 +115,11 @@ impute_rhd <- function(dat, formula, pool=c("complete","univariate","multivariat
       , multivariate = multi_rhd)
   
   
-  prob <- if (missing(prob)) rep(1,nrow(dat)) else {stopifnot(length(prob)!=nrow(dat)); prob}
 
-  predicted <- get_imputed(formula, dat)
-  grps <- groups(dat,formula)
-  formula <- remove_groups(formula)
-  predictors <- get_predictors(formula, dat, one_ok = TRUE)
-  predictors <- unique(c(predictors, grps))
   
   idat <- dat[predicted]
   # ugly construction, but fast.
+  prob <- if (missing(prob)) rep(1,nrow(dat)) else {stopifnot(length(prob)!=nrow(dat)); prob}
   idat$PROB..TMP <- prob
     
   spl <- if (length(predictors) > 0) dat[predictors] else data.frame(split=rep(1,nrow(dat)))
@@ -122,6 +185,25 @@ multi_rhd <- function(x){
   x
 }
 
+## Map hotdeck methods to VIM backend
+hd_vim <- function(data, variable, ord_var, domain_var, imp_var=FALSE,...){
+  if(!requireNamespace("VIM", quietly = TRUE)){
+    warning(novimwarn(), call. = FALSE)
+    return(data)
+  }
+  if (length(domain_var) == 0) domain_var <- NULL
+  tryCatch(
+    VIM::hotdeck(data=data, variable=variable
+      , ord_var=ord_var,domain_var=domain_var
+      ,imp_var=imp_var,...)
+    , error = function(e){
+      warnf("VIM::hotdeck stopped with message\n %s\n Returning original data."
+            , e$message)
+      data
+    })
+}
+
+
 # ------------------------------------------------------------------------------
 # SEQUENTIAL HOTDECK IMPUTATION
 
@@ -130,8 +212,26 @@ multi_rhd <- function(x){
 #' @param order Last Observation Carried Forward or Next Observarion Carried Backward
 #' @export
 impute_shd <- function(dat, formula, pool=c("complete","univariate","multivariate")
-                       , order=c("locf","nocb"),...){
+                       , order=c("locf","nocb")
+                       , backend=getOption("simputation.hdbackend", default=c("simputation","VIM"))
+                       , ...){
   stopifnot(inherits(formula,"formula"))
+  backend <- match.arg(backend,choices=c("simputation","VIM"))
+  if (backend == "VIM"){
+    predictors <- get_predictors(formula,dat,one_ok = TRUE)
+    if (length(predictors)==0) predictors <- ".vim.doemmy.sortvar"
+    dat$.vim.doemmy.sortvar <- seq_len(nrow(dat))
+    out <- hd_vim(data=dat
+      , variable = get_imputed(formula, dat)
+      , ord_var = predictors
+      , domain_var = groups(dat, formula)
+      , ...
+    )
+    out$.vim.doemmy.sortvar <- NULL
+    return(out)
+  }
+  
+  # else: use builtin backend
   pool <- match.arg(pool)
   order <- match.arg(order)
   
@@ -144,7 +244,6 @@ shd_work <- function(dat, formula, pool=c("complete","univariate","multivariate"
   stopifnot(inherits(formula,"formula"))
   predicted <- get_imputed(formula, dat)
   predictors <- get_predictors(formula, dat, one_ok=TRUE)
-  
   
   ord <- if( length(predictors) > 0) order(dat[predictors],decreasing=FALSE) else seq_len(nrow(dat)) 
   if (order=="locf") ord <- rev(ord)
@@ -337,14 +436,46 @@ multi_cc_pmm <- function(dat, idat, predicted, only_complete=TRUE){
 #' @rdname impute_
 #' @param k Number of nearest neighbours to draw the donor from.
 #' @export
-impute_knn <- function(dat, formula, pool=c("complete","univariate","multivariate"), k=5, ...){
+impute_knn <- function(dat, formula
+  , pool=c("complete","univariate","multivariate")
+  , k=5
+  , backend = getOption("simputation.hdbackend", default=c("simputation","VIM"))
+  , ...){
   stopifnot(inherits(formula,"formula"))
+  backend <- match.arg(backend,choices=c("simputation","VIM"))
+  
+  if (backend == "VIM"){
+    if (length(groups(dat, formula)) > 0){
+      message("VIM does not support grouping. Ignoring grouping variables")
+    }
+    knn_vim(data=dat
+      , variable = get_imputed(formula, dat)
+      , dist_var = get_predictors(formula, dat)
+      , k=k , ... )
+  }
+  
   pool <- match.arg(pool)
   
   do_by(dat, groups(dat,formula), .fun=knn_work
     , formula=remove_groups(formula), pool=pool, k=k, ...)
 }
 
+## knn imputation with VIM backend.
+knn_vim <- function(data, variable, dist_var, imp_var=FALSE, k=5,...){
+  if (!requireNamespace("VIM",quietly = TRUE)){
+    warning(novimwarn(), call. = FALSE)
+    return(data)
+  } 
+  tryCatch(
+    VIM::kNN(data=data, variable=variable, dist_var=dist_var
+     , imp_var=imp_var, k=k,...)
+    , error = function(e){
+      warnf("VIM::kNN stopped with message\n %s\n Returning original data."
+            , e$message)
+      data
+    })
+  
+}
 
 knn_work <- function(dat, formula, pool=c("complete","univariate","multivariate"), k, ...){
   

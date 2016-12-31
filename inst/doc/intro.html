@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark van der Loo" />
 
-<meta name="date" content="2016-09-09" />
+<meta name="date" content="2016-12-30" />
 
 <title>Getting started with simputation</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Getting started with simputation</h1>
 <h4 class="author"><em>Mark van der Loo</em></h4>
-<h4 class="date"><em>2016-09-09</em></h4>
+<h4 class="date"><em>2016-12-30</em></h4>
 
 
 <div id="TOC">
@@ -79,6 +79,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#chaining-imputation-methods">Chaining imputation methods</a></li>
 <li><a href="#similar-model-for-multiple-variables">Similar model for multiple variables</a></li>
 <li><a href="#grouping-data-for-imputation">Grouping data for imputation</a></li>
+<li><a href="#using-vim-as-backend-for-hotdeck-imputations">Using VIM as backend for hotdeck imputations</a></li>
 </ul>
 </div>
 
@@ -185,12 +186,12 @@ da4 &lt;-<span class="st"> </span>dat %&gt;%<span class="st"> </span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">da6 &lt;-<span class="st"> </span><span class="kw">impute_lm</span>(dat, . -<span class="st"> </span>Species ~<span class="st"> </span><span class="dv">0</span> +<span class="st"> </span>Species, <span class="dt">add_residual =</span> <span class="st">&quot;normal&quot;</span>)
 <span class="kw">head</span>(da6)</code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1     4.548924    3.500000          1.4         0.2  setosa
-## 2     4.763129    3.000000          1.4         0.2  setosa
-## 3     4.795675    3.491191          1.3         0.2  setosa
-## 4     4.600000    3.367455          1.5         0.2  setosa
-## 5     5.000000    3.447707          1.4         0.2  setosa
-## 6     5.400000    3.715657          1.7         0.4  setosa</code></pre>
+## 1     5.510102    3.500000          1.4         0.2  setosa
+## 2     4.995128    3.000000          1.4         0.2  setosa
+## 3     5.126969    3.280599          1.3         0.2  setosa
+## 4     4.600000    4.108442          1.5         0.2  setosa
+## 5     5.000000    3.447592          1.4         0.2  setosa
+## 6     5.400000    3.815632          1.7         0.4  setosa</code></pre>
 <p>where <code>Species</code> on the right-hand-side defines the grouping variable.</p>
 </div>
 <div id="grouping-data-for-imputation" class="section level3">
@@ -225,6 +226,19 @@ dat[<span class="dv">1</span>:<span class="dv">3</span>,<span class="dv">1</span
 
 dat %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Species) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">impute_lm</span>(Sepal.Length ~<span class="st"> </span>Petal.Width)</code></pre></div>
+</div>
+<div id="using-vim-as-backend-for-hotdeck-imputations" class="section level3">
+<h3>Using VIM as backend for hotdeck imputations</h3>
+<p>The <a href="https://CRAN.R-project.org/package=VIM">VIM</a> package offers fast implementations for sequential and random hotdeck procedures (based on the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package). It also offers somewhat finer control over certain features such as donor selection. For this reason, the sequential, random, and k-nearest neighbours hotdeck imputation procedures can be told to use VIM as backend.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">foo =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="ot">NA</span>,<span class="dv">4</span>)
+  , <span class="dt">bar =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="ot">NA</span>,<span class="dv">8</span>,<span class="ot">NA</span>)
+)
+<span class="co"># sequential hotdeck imputation, no sorting variables</span>
+<span class="kw">impute_shd</span>(dat, . ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">pool=</span><span class="st">&quot;complete&quot;</span>)
+<span class="kw">impute_shd</span>(dat, . ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">pool=</span><span class="st">&quot;univariate&quot;</span>)
+<span class="kw">impute_shd</span>(dat, .~<span class="dv">1</span>, <span class="dt">backend=</span><span class="st">&quot;VIM&quot;</span>)</code></pre></div>
+<p>Note that VIM uses last observation carried forward by default, and the specification of donor pool is on a per-variable basis (this cannot be changed). See <code>?impute_shd</code> for the full specification.</p>
 </div>
 
 

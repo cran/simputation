@@ -58,3 +58,13 @@ head(da8)
 #  dat %>% group_by(Species) %>%
 #    impute_lm(Sepal.Length ~ Petal.Width)
 
+## ----eval=FALSE----------------------------------------------------------
+#  dat <- data.frame(
+#    foo = c(1,2,NA,4)
+#    , bar = c(1,NA,8,NA)
+#  )
+#  # sequential hotdeck imputation, no sorting variables
+#  impute_shd(dat, . ~ 1, pool="complete")
+#  impute_shd(dat, . ~ 1, pool="univariate")
+#  impute_shd(dat, .~1, backend="VIM")
+
