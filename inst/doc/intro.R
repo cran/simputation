@@ -1,6 +1,23 @@
 ## ---- echo=FALSE---------------------------------------------------------
 library(simputation)
 
+## ----eval=FALSE----------------------------------------------------------
+#  install.packages('simputation')
+
+## ----eval=FALSE----------------------------------------------------------
+#  install.packages('simputation', dependencies=TRUE)
+
+## ----echo=FALSE----------------------------------------------------------
+knitr::kable(
+  data.frame(
+      `function` = c("impute_rlm"    ,"impute_en"              , "impute_cart", "impute_rf", "impute_rhd","impute_shd","impute_knn","impute_mf","impute_em")
+    , model = c("M-estimation", "ridge/elasticnet/lasso", "CART"       , "random forest","random hot deck","sequential hot deck","k nearest neighbours","missForest","mv-normal")
+    , package = c("MASS"      ,"glmnet"                 , "rpart"      , "randomForest","VIM (optional)","VIM (optional)","VIM (optional)","missForest","norm")
+    , R.recommended = c("yes","no","yes","no","no","no","no","no","no")
+    ,stringsAsFactors=FALSE
+  )
+)
+
 ## ---- eval=FALSE---------------------------------------------------------
 #  impute_<model>(data, formula, [model-specific options])
 
@@ -57,6 +74,13 @@ head(da8)
 #  
 #  dat %>% group_by(Species) %>%
 #    impute_lm(Sepal.Length ~ Petal.Width)
+
+## ------------------------------------------------------------------------
+dat <- iris
+dat[1:3,1] <- dat[3:7,2] <- NA
+
+dat <- impute_proxy(dat, Sepal.Length ~ median(Sepal.Length,na.rm=TRUE)/median(Sepal.Width, na.rm=TRUE) * Sepal.Width | Species)
+head(dat)
 
 ## ----eval=FALSE----------------------------------------------------------
 #  dat <- data.frame(

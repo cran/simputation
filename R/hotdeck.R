@@ -2,21 +2,17 @@
 # ------------------------------------------------------------------------------
 # RANDOM HOTDECK IMPUTATION
 
-
-#' @param backend Choose the backend for imputation.
+#' Hot deck imputation
 #' 
-#' @section Hot deck imputation:
+#' Hot-deck imputation methods include random and sequential hot deck, 
+#' k-nearest neighbours imputation and predictive mean matching.
 #' 
-#'  
-#' \itemize{
-#' \item{\code{impute_rhd} The predictor variables in the \code{model} argument are used to split the data 
-#' set into groups prior to imputation (use \code{~ 1} to specify that no grouping is applied).}
-#' \item{\code{impute_shd} The predictor variables are used to sort the data.}
-#' \item{\code{impute_knn} The predictors are used to determine Gower's distance 
-#'  between records (see \code{\link[gower]{gower_topn}})}.
-#'} 
 #' 
-#' The \code{pool} argument is used to specify the donor pool as follows.
+#' @param dat \code{[data.frame]}, with variables to be imputed and their
+#'   predictors.
+#' @param formula \code{[formula]} imputation model description (see Details below).
+#' @param backend \code{[character]} Choose the backend for imputation.
+#' @param pool \code{[character]} Specify donor pool when \code{backend="simputation"}
 #' \itemize{
 #' \item{\code{"complete"}. Only records for which the variables on the
 #'    left-hand-side of the model formula are complete are used as donors. If a
@@ -30,6 +26,82 @@
 #'    pattern. If a record has multiple missings, all imputations are taken from 
 #'    a single donor.}
 #' } 
+#' @param prob \code{[numeric]} Sampling probability weights (passed through to
+#'   \code{\link[base]{sample}}). Must be of length \code{nrow(dat)}.
+#' @param ... further arguments passed to \code{\link[VIM:hotdeck]{VIM::hotdeck}}
+#'   if \code{VIM} is chosen as backend, otherwise they are passed to
+#' \itemize{
+#'   \item{\code{\link[base]{order}} for \code{impute_shd}} and
+#'   \code{backend="simputation"} 
+#'   \item{\code{\link[VIM:hotdeck]{VIM::hotdeck}}
+#'   for \code{impute_shd} and \code{impute_rhd} when \code{backend="VIM"}}.
+#'   \item{\code{\link[VIM:kNN]{VIM:kNN}} for \code{impute_knn} when 
+#'   \code{backend="VIM"}}
+#'   \item{The \code{predictor} function for \code{impute_pmm}.}
+#' }
+#' 
+#' 
+#' @section Model specification:
+#' 
+#' Formulas are of the form
+#' 
+#' \code{IMPUTED_VARIABLES ~ MODEL_SPECIFICATION [ | GROUPING_VARIABLES ] }
+#' 
+#' The left-hand-side of the formula object lists the variable or variables to 
+#' be imputed. The interpretation of the independent variables on the
+#' right-hand-side depends on the imputation method.
+#' 
+#' \itemize{
+#' \item{\code{impute_rhd} Variables in \code{MODEL_SPECIFICATION} and/or 
+#' \code{GROUPING_VARIABLES} are used to split the data set into groups prior to
+#' imputation. Use \code{~ 1} to specify that no grouping is to be applied.}
+#' \item{\code{impute_shd} Variables in \code{MODEL_SPECIFICATION} are used to 
+#' sort the data. When multiple variables are specified, each variable after
+#' the first serves as tie-breaker for the previous one.}
+#' \item{\code{impute_knn} The predictors are used to determine Gower's distance
+#' between records (see \code{\link[gower]{gower_topn}}). This may include the
+#' variables to be imputed.}.
+#' \item{\code{impute_pmm}} Predictive mean matching. The
+#'  \code{MODEL_SPECIFICATION} is passed through to the \code{predictor}
+#'  function.
+#'} 
+#' 
+#' 
+#' If grouping variables are specified, the data set is split according to the
+#' values of those variables, and model estimation and imputation occur
+#' independently for each group.
+#' 
+#' Grouping using \code{dplyr::group_by} is also supported. If groups are 
+#' defined in both the formula and using \code{dplyr::group_by}, the data is 
+#' grouped by the union of grouping variables. Any missing value in one of the 
+#' grouping variables results in an error.
+#' 
+#' @section Methodology:
+#' 
+#' \bold{Random hot deck imputation} with \code{impute_rhd} can be applied to
+#' numeric, categorical or mixed data. A missing value is copied from a sampled
+#' record. Optionally samples are taken within a group, or with non-uniform
+#' sampling probabilities. See Andridge and Little (2010) for an overview
+#' of hot deck imputation methods.
+#' 
+#' \bold{Sequential hot deck imputation} with \code{impute_rhd} can be applied
+#' to numeric, categorical, or mixed data. The dataset is sorted using the
+#' `predictor variables'. Missing values or combinations thereof are copied
+#' from the previous record where the value(s) are available in the case
+#' of LOCF and from the next record in the case of NOCF. 
+#'   
+#' \bold{Predictive mean matching} with \code{impute_pmm} can be applied to
+#' numeric data. Missing values or combinations thereof are first imputed using
+#' a predictive model. Next, these predictions are replaced with observed
+#' (combinations of) values nearest to the prediction. The nearest value is the
+#' observed value with the smallest absolute deviation from the prediction.
+#' 
+#' \bold{K-nearest neighbour imputation} with \code{impute_knn} can be applied 
+#' to numeric, categorical, or mixed data. For each record containing missing 
+#' values, the \eqn{k} most similar completed records are determined based on
+#' Gower's (1977) similarity coefficient. From these records the actual donor is
+#' sampled.
+#' 
 #' 
 #' @section Using the VIM backend:
 #'
@@ -65,7 +137,7 @@
 #'  \item{\code{impute_knn} is mapped to \code{VIM::kNN} where imputed variables
 #'  are passed to \code{variable}, predictor variables are passed to \code{dist_var}
 #'  and grouping variables are ignored with a message. 
-#'  Extra arguments in \code{...} are passed to \code{VIM::hotdeck} as well.
+#'  Extra arguments in \code{...} are passed to \code{VIM::kNN} as well.
 #'  Argument \code{pool} is ignored.
 #'  Note that simputation  adheres stricktly to the Gower's original
 #'  definition of the distance measure, while \pkg{VIM} uses a generalized variant
@@ -78,20 +150,22 @@
 #' be turned on again by setting \code{imp_var=TRUE}.
 #' 
 #' 
+#' @references 
+#' Andridge, R.R. and Little, R.J., 2010. A review of hot deck imputation for
+#' survey non-response. International statistical review, 78(1), pp.40-64.
 #' 
+#' Gower, J.C., 1971. A general coefficient of similarity and some of its
+#' properties. Biometrics, pp.857--871.
 #' 
-#'
-#' @rdname impute_
-#' @param pool Specify donor pool. See under 'Hot deck imputation'.
-#' @param prob \code{[numeric]} Sampling probability weights (passed through to
-#'   \code{\link[base]{sample}}). Must be of length \code{nrow(dat)}.
+#' @name impute_hotdeck
+#' @rdname impute_hotdeck
 #' @export
 impute_rhd <- function(dat, formula, pool=c("complete","univariate","multivariate")
                        , prob, backend=getOption("simputation.hdbackend",default=c("simputation","VIM"))
                        , ...){
   stopifnot(inherits(formula,"formula"))
   backend <- match.arg(backend, choices = c("simputation","VIM"))
-
+  at <- attributes(dat)
   predicted <- get_imputed(formula, dat)
   grps <- groups(dat,formula)
   formula <- remove_groups(formula)
@@ -121,12 +195,12 @@ impute_rhd <- function(dat, formula, pool=c("complete","univariate","multivariat
   # ugly construction, but fast.
   prob <- if (missing(prob)) rep(1,nrow(dat)) else {stopifnot(length(prob)!=nrow(dat)); prob}
   idat$PROB..TMP <- prob
-    
+
   spl <- if (length(predictors) > 0) dat[predictors] else data.frame(split=rep(1,nrow(dat)))
   
   # split-apply-combine, the base-R way.
   dat[predicted] <- unsplit( lapply( split(idat, spl), rhd ), spl)[predicted]
-
+  attributes(dat) <- at
   dat
 }
 
@@ -187,10 +261,7 @@ multi_rhd <- function(x){
 
 ## Map hotdeck methods to VIM backend
 hd_vim <- function(data, variable, ord_var, domain_var, imp_var=FALSE,...){
-  if(!requireNamespace("VIM", quietly = TRUE)){
-    warning(novimwarn(), call. = FALSE)
-    return(data)
-  }
+  if(not_installed("VIM")) return(data)
   if (length(domain_var) == 0) domain_var <- NULL
   tryCatch(
     VIM::hotdeck(data=data, variable=variable
@@ -208,8 +279,10 @@ hd_vim <- function(data, variable, ord_var, domain_var, imp_var=FALSE,...){
 # SEQUENTIAL HOTDECK IMPUTATION
 
 
-#' @rdname impute_
-#' @param order Last Observation Carried Forward or Next Observarion Carried Backward
+#' @rdname impute_hotdeck
+#' @param order \code{[character]} Last Observation Carried Forward or Next
+#'   Observarion Carried Backward. Only for \code{backend="simputation"}
+#' 
 #' @export
 impute_shd <- function(dat, formula, pool=c("complete","univariate","multivariate")
                        , order=c("locf","nocb")
@@ -341,20 +414,22 @@ multi_shd <- function(x){
 # PMM IMPUTATION
 
 
-#' @rdname impute_
+#' @rdname impute_hotdeck
 #' @param predictor \code{[function]} Imputation to use for predictive part in
 #'   predictive mean matching. Any of the \code{impute_} functions of this
 #'   package (it makes no sense to use a hot-deck imputation).
+#' 
 #' @export
 impute_pmm <- function(dat, formula, predictor=impute_lm
   , pool=c('complete','univariate','multivariate'), ...){
-
+  
   # input check
   stopifnot(inherits(formula,"formula"))
   pool <- match.arg(pool)
-  
+
   # generate predictions by imputing with the 'predictor' function.
   do_by(dat, groups(dat,formula), .fun=pmm_work
+    , predictor = predictor
     , formula=remove_groups(formula), pool=pool, ...)
 }
 
@@ -433,8 +508,9 @@ multi_cc_pmm <- function(dat, idat, predicted, only_complete=TRUE){
 
 
 
-#' @rdname impute_
-#' @param k Number of nearest neighbours to draw the donor from.
+#' @rdname impute_hotdeck
+#' @param k \code{[numeric]} Number of nearest neighbours to draw the donor from.
+#' 
 #' @export
 impute_knn <- function(dat, formula
   , pool=c("complete","univariate","multivariate")
@@ -462,10 +538,7 @@ impute_knn <- function(dat, formula
 
 ## knn imputation with VIM backend.
 knn_vim <- function(data, variable, dist_var, imp_var=FALSE, k=5,...){
-  if (!requireNamespace("VIM",quietly = TRUE)){
-    warning(novimwarn(), call. = FALSE)
-    return(data)
-  } 
+  if (not_installed("VIM")) return(data)
   tryCatch(
     VIM::kNN(data=data, variable=variable, dist_var=dist_var
      , imp_var=imp_var, k=k,...)

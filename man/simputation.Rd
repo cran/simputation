@@ -6,6 +6,9 @@
 \alias{simputation-package}
 \title{simputation}
 \description{
-simputation
+A package to make imputation simpler.
+}
+\details{
+To get started, see the \href{../doc/intro.html}{introductory vignette}.
 }
 
