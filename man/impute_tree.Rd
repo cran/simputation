@@ -77,10 +77,14 @@ in predictors.
 categorical, or mixed data. Missing values are estimated using a Random Forest
 model as specified by Breiman (2001).
 }
+
 \references{
 Breiman, L., Friedman, J., Stone, C.J. and Olshen, R.A., 1984. Classification
 and regression trees. CRC press.
   
 Breiman, L., 2001. Random forests. Machine learning, 45(1), pp.5-32.
 }
-
+\seealso{
+Other imputation: \code{\link{impute_hotdeck}},
+  \code{\link{impute_lm}}, \code{\link{impute}}
+}

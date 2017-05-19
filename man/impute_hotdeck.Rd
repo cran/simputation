@@ -2,10 +2,10 @@
 % Please edit documentation in R/hotdeck.R
 \name{impute_hotdeck}
 \alias{impute_hotdeck}
-\alias{impute_knn}
-\alias{impute_pmm}
 \alias{impute_rhd}
 \alias{impute_shd}
+\alias{impute_pmm}
+\alias{impute_knn}
 \title{Hot deck imputation}
 \usage{
 impute_rhd(dat, formula, pool = c("complete", "univariate", "multivariate"),
@@ -186,6 +186,7 @@ original data to trace what values have been imputed. This is switched off by
 default for consistency with the rest of the simputation package, but it may
 be turned on again by setting \code{imp_var=TRUE}.
 }
+
 \references{
 Andridge, R.R. and Little, R.J., 2010. A review of hot deck imputation for
 survey non-response. International statistical review, 78(1), pp.40-64.
@@ -193,4 +194,7 @@ survey non-response. International statistical review, 78(1), pp.40-64.
 Gower, J.C., 1971. A general coefficient of similarity and some of its
 properties. Biometrics, pp.857--871.
 }
-
+\seealso{
+Other imputation: \code{\link{impute_cart}},
+  \code{\link{impute_lm}}, \code{\link{impute}}
+}

@@ -17,4 +17,3 @@ This function is re-exported from
 available. Otherwise it will throw a warning and resort to 
 \code{options("na.action")}
 }
-

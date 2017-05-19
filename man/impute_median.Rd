@@ -40,6 +40,7 @@ be imputed. Variables in \code{MODEL_SPECIFICATION} and/or
 \code{GROUPING_VARIABLES} are used to split the data set into groups prior to
 imputation. Use \code{~ 1} to specify that no grouping is to be applied.
 }
+
 \examples{
 
 # group-wise median imputation
@@ -54,4 +55,3 @@ a <- impute_median(irisNA, . - Species ~ Species)
 head(a)
 
 }
-

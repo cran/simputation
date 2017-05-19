@@ -82,6 +82,17 @@ dat[1:3,1] <- dat[3:7,2] <- NA
 dat <- impute_proxy(dat, Sepal.Length ~ median(Sepal.Length,na.rm=TRUE)/median(Sepal.Width, na.rm=TRUE) * Sepal.Width | Species)
 head(dat)
 
+## ------------------------------------------------------------------------
+m <- lm(Sepal.Length ~ Sepal.Width + Species, data=iris)
+
+## ------------------------------------------------------------------------
+dat <- iris
+dat[1:3,1] <- dat[3:7,2] <- NA
+head(dat)
+
+dat <- impute(dat, Sepal.Length ~ m)
+head(dat)
+
 ## ----eval=FALSE----------------------------------------------------------
 #  dat <- data.frame(
 #    foo = c(1,2,NA,4)
