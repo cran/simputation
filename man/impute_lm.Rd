@@ -13,7 +13,8 @@ impute_rlm(dat, formula, add_residual = c("none", "observed", "normal"),
   na_action = na.omit, ...)
 
 impute_en(dat, formula, add_residual = c("none", "observed", "normal"),
-  na_action = na.omit, family = c("gaussian", "poisson"), s = 0.01, ...)
+  na_action = na.omit, family = c("gaussian", "poisson"), s = 0.01,
+  ...)
 }
 \arguments{
 \item{dat}{\code{[data.frame]}, with variables to be imputed and their
@@ -146,3 +147,4 @@ Methodology), 67(2), pp.301-320.
 Other imputation: \code{\link{impute_cart}},
   \code{\link{impute_hotdeck}}, \code{\link{impute}}
 }
+\concept{imputation}

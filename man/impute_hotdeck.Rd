@@ -8,20 +8,21 @@
 \alias{impute_knn}
 \title{Hot deck imputation}
 \usage{
-impute_rhd(dat, formula, pool = c("complete", "univariate", "multivariate"),
-  prob, backend = getOption("simputation.hdbackend", default =
-  c("simputation", "VIM")), ...)
-
-impute_shd(dat, formula, pool = c("complete", "univariate", "multivariate"),
-  order = c("locf", "nocb"), backend = getOption("simputation.hdbackend",
+impute_rhd(dat, formula, pool = c("complete", "univariate",
+  "multivariate"), prob, backend = getOption("simputation.hdbackend",
   default = c("simputation", "VIM")), ...)
+
+impute_shd(dat, formula, pool = c("complete", "univariate",
+  "multivariate"), order = c("locf", "nocb"),
+  backend = getOption("simputation.hdbackend", default = c("simputation",
+  "VIM")), ...)
 
 impute_pmm(dat, formula, predictor = impute_lm, pool = c("complete",
   "univariate", "multivariate"), ...)
 
-impute_knn(dat, formula, pool = c("complete", "univariate", "multivariate"),
-  k = 5, backend = getOption("simputation.hdbackend", default =
-  c("simputation", "VIM")), ...)
+impute_knn(dat, formula, pool = c("complete", "univariate",
+  "multivariate"), k = 5, backend = getOption("simputation.hdbackend",
+  default = c("simputation", "VIM")), ...)
 }
 \arguments{
 \item{dat}{\code{[data.frame]}, with variables to be imputed and their
@@ -198,3 +199,4 @@ properties. Biometrics, pp.857--871.
 Other imputation: \code{\link{impute_cart}},
   \code{\link{impute_lm}}, \code{\link{impute}}
 }
+\concept{imputation}

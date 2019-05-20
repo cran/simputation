@@ -66,3 +66,4 @@ impute(irisNA, Sepal.Length ~ my_model)
 Other imputation: \code{\link{impute_cart}},
   \code{\link{impute_hotdeck}}, \code{\link{impute_lm}}
 }
+\concept{imputation}

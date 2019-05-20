@@ -5,11 +5,11 @@
 \alias{impute_const}
 \title{Impute by variable derivation}
 \usage{
-impute_proxy(dat, formula, add_residual = c("none", "observed", "normal"),
-  ...)
+impute_proxy(dat, formula, add_residual = c("none", "observed",
+  "normal"), ...)
 
-impute_const(dat, formula, add_residual = c("none", "observed", "normal"),
-  ...)
+impute_const(dat, formula, add_residual = c("none", "observed",
+  "normal"), ...)
 }
 \arguments{
 \item{dat}{\code{[data.frame]}, with variables to be imputed and their
