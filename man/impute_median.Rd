@@ -4,8 +4,13 @@
 \alias{impute_median}
 \title{Impute (group-wise) medians}
 \usage{
-impute_median(dat, formula, add_residual = c("none", "observed",
-  "normal"), type = 7, ...)
+impute_median(
+  dat,
+  formula,
+  add_residual = c("none", "observed", "normal"),
+  type = 7,
+  ...
+)
 }
 \arguments{
 \item{dat}{\code{[data.frame]}, with variables to be imputed and their

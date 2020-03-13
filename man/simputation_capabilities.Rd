@@ -10,7 +10,7 @@ simputation_capabilities()
 simputation_suggests(lib.loc = NULL)
 }
 \arguments{
-\item{lib.loc}{Where to check whether a package is installed (passed to 
+\item{lib.loc}{Where to check whether a package is installed (passed to
 \code{\link[utils]{installed.packages}})}
 }
 \value{

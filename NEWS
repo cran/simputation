@@ -1,3 +1,14 @@
+version 0.2.4
+- Updated tests in preparation of the new 'stringsAsFactors=FALSE' policy 
+  (thanks to Kurt Hornik)
+- Fixed parsing error for formulas with very long variable names (Thanks to 
+  Karl Dunkle Werner).
+- Fix: ... was not parsed to 'missForest' in 'impute_mf'.
+- Fix: Column names with spaces were not handled properly (Thanks to Miles
+  McBain)
+- Fix: 'impute_proxy' would crash when imputing a character constant.
+
+
 version 0.2.3
 - switched to 'tinytest' testing framework
 - Fix in impute_median: wrong medians imputed at randomly sorted data (thanks to Ranjeed-S).

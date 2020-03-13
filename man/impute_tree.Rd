@@ -5,11 +5,22 @@
 \alias{impute_rf}
 \title{Decision Tree Imputation}
 \usage{
-impute_cart(dat, formula, add_residual = c("none", "observed", "normal"),
-  cp, na_action = na.rpart, ...)
+impute_cart(
+  dat,
+  formula,
+  add_residual = c("none", "observed", "normal"),
+  cp,
+  na_action = na.rpart,
+  ...
+)
 
-impute_rf(dat, formula, add_residual = c("none", "observed", "normal"),
-  na_action = na.omit, ...)
+impute_rf(
+  dat,
+  formula,
+  add_residual = c("none", "observed", "normal"),
+  na_action = na.omit,
+  ...
+)
 }
 \arguments{
 \item{dat}{\code{[data.frame]}, with variables to be imputed and their
@@ -85,7 +96,9 @@ and regression trees. CRC press.
 Breiman, L., 2001. Random forests. Machine learning, 45(1), pp.5-32.
 }
 \seealso{
-Other imputation: \code{\link{impute_hotdeck}},
-  \code{\link{impute_lm}}, \code{\link{impute}}
+Other imputation: 
+\code{\link{impute_hotdeck}},
+\code{\link{impute_lm}()},
+\code{\link{impute}()}
 }
 \concept{imputation}

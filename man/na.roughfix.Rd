@@ -12,8 +12,8 @@ na.roughfix(object, ...)
 \item{...}{arguments to be passed to other methods.}
 }
 \description{
-This function is re-exported from 
-\code{\link[randomForest:na.roughfix]{randomForest:na.roughfix}} when 
-available. Otherwise it will throw a warning and resort to 
+This function is re-exported from
+\code{\link[randomForest:na.roughfix]{randomForest:na.roughfix}} when
+available. Otherwise it will throw a warning and resort to
 \code{options("na.action")}
 }

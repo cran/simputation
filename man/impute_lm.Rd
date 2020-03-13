@@ -6,15 +6,31 @@
 \alias{impute_en}
 \title{(Robust) Linear Regression Imputation}
 \usage{
-impute_lm(dat, formula, add_residual = c("none", "observed", "normal"),
-  na_action = na.omit, ...)
+impute_lm(
+  dat,
+  formula,
+  add_residual = c("none", "observed", "normal"),
+  na_action = na.omit,
+  ...
+)
 
-impute_rlm(dat, formula, add_residual = c("none", "observed", "normal"),
-  na_action = na.omit, ...)
+impute_rlm(
+  dat,
+  formula,
+  add_residual = c("none", "observed", "normal"),
+  na_action = na.omit,
+  ...
+)
 
-impute_en(dat, formula, add_residual = c("none", "observed", "normal"),
-  na_action = na.omit, family = c("gaussian", "poisson"), s = 0.01,
-  ...)
+impute_en(
+  dat,
+  formula,
+  add_residual = c("none", "observed", "normal"),
+  na_action = na.omit,
+  family = c("gaussian", "poisson"),
+  s = 0.01,
+  ...
+)
 }
 \arguments{
 \item{dat}{\code{[data.frame]}, with variables to be imputed and their
@@ -144,7 +160,9 @@ Methodology), 67(2), pp.301-320.
 \seealso{
 \href{../doc/intro.html}{Getting started with simputation},
 
-Other imputation: \code{\link{impute_cart}},
-  \code{\link{impute_hotdeck}}, \code{\link{impute}}
+Other imputation: 
+\code{\link{impute_cart}()},
+\code{\link{impute_hotdeck}},
+\code{\link{impute}()}
 }
 \concept{imputation}

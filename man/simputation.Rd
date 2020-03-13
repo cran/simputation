@@ -3,7 +3,6 @@
 \docType{package}
 \name{simputation}
 \alias{simputation}
-\alias{simputation-package}
 \title{simputation}
 \description{
 A package to make imputation simpler.
