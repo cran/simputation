@@ -1,8 +1,8 @@
-1554c3ce93175ebc34aee84ea4e286c4 *DESCRIPTION
+936d734619cfad9d5d31f453004b01b6 *DESCRIPTION
 232f2fa5c3652b30f0185b316393013d *NAMESPACE
-5ab135c055d1949e843d378664cb4fce *NEWS
+6bf0e7287a1776b8cb794a8197403a6a *NEWS
 793e5e3c7ba663a8945387353d469c9b *R/foretell.R
-04f10018c7c8107763b7251440121020 *R/hotdeck.R
+b586fad5bc1272b1a5ba699cad52f7a4 *R/hotdeck.R
 1bc4532df49cc3923355fb3c0f0d9b6b *R/linearmodels.R
 fa03da91245e689415f572df6e104b08 *R/modelimpute.R
 0793e2033ad8e3aa3e43c61ad8fafe21 *R/multivariate.R
@@ -13,12 +13,12 @@ fa03da91245e689415f572df6e104b08 *R/modelimpute.R
 266b1586d28f985a426e55858502bf44 *build/vignette.rds
 0d55bf54d8af3e5db86a5f9eedaa7984 *inst/doc/intro.R
 4efc34ed04720f12e2b3a613d64e1a12 *inst/doc/intro.Rmd
-fa3cf21219fd65135f0c582a6f0d7670 *inst/doc/intro.html
+4e830cd8eb3507f1d33b1591c5f978f3 *inst/doc/intro.html
 410839ac8d54812682a7b654521122d8 *inst/tinytest/test_em.R
 fd2162c606123ca1c08de6ad2ca03a63 *inst/tinytest/test_foretell.R
 ee34100515fbb76f40bf9cffdb48d5cb *inst/tinytest/test_gh_issue_11.R
 160102d8b97b74e3ddc86f8c8a55f056 *inst/tinytest/test_gh_issue_9.R
-d5f473601eecca9f653a90dad183e6ee *inst/tinytest/test_hd.R
+bd6bbab3222b15fb4722c31641678e0c *inst/tinytest/test_hd.R
 df40fe9162faaea6199af68deb689621 *inst/tinytest/test_imputemodels.R
 5760103e0d1585e7a6a2e1aeba403a3b *inst/tinytest/test_lm.R
 457a90ee92bfabacf301cd9aee34ad11 *inst/tinytest/test_median.R
@@ -27,7 +27,7 @@ df40fe9162faaea6199af68deb689621 *inst/tinytest/test_imputemodels.R
 41d63fdb2894252ab3470aedc8dfc34e *man/deparse.Rd
 abcbe8b733489cb5273e84b56c18e463 *man/foretell.Rd
 377dc5b82e8de400ab1ddda553737a70 *man/impute.Rd
-6b0b14f4a9baddacff0d71c30b1d915f *man/impute_hotdeck.Rd
+31858e494cbe364078fef7fdbbe1234c *man/impute_hotdeck.Rd
 eb223bbea10d6debb18e37b37b6e154d *man/impute_lm.Rd
 978232119da7af26792fac2c0da7dd1c *man/impute_median.Rd
 b0c943ccf9b744d938cbcf5de71d94ec *man/impute_multivariate.Rd

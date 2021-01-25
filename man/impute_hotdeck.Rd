@@ -67,7 +67,9 @@ predictors.}
 \item{prob}{\code{[numeric]} Sampling probability weights (passed through to
 \code{\link[base]{sample}}). Must be of length \code{nrow(dat)}.}
 
-\item{backend}{\code{[character]} Choose the backend for imputation.}
+\item{backend}{\code{[character]} Choose the backend for imputation. If 
+\code{backend="VIM"} the variables used to sort the data (in case of
+ sequential hot deck) may not coincide with imputed variables.}
 
 \item{...}{further arguments passed to \code{\link[VIM:hotdeck]{VIM::hotdeck}}
   if \code{VIM} is chosen as backend, otherwise they are passed to
