@@ -1,10 +1,5 @@
 
-#include <math.h>
-#include <R.h>
 #include <Rdefines.h>
-#ifdef _OPENMP
-#include <omp.h>
-#endif
 
 
 SEXP pmm_impute_dbl(SEXP recipients_, SEXP donors_ ){

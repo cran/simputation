@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark van der Loo" />
 
-<meta name="date" content="2021-01-25" />
+<meta name="date" content="2021-09-16" />
 
 <title>Getting started with simputation</title>
 
@@ -27,7 +27,14 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
@@ -311,7 +318,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Getting started with simputation</h1>
 <h4 class="author">Mark van der Loo</h4>
-<h4 class="date">2021-01-25</h4>
+<h4 class="date">2021-09-16</h4>
 
 
 <div id="TOC">
@@ -516,12 +523,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">da6 &lt;-<span class="st"> </span><span class="kw">impute_lm</span>(dat, . <span class="op">-</span><span class="st"> </span>Species <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>Species, <span class="dt">add_residual =</span> <span class="st">&quot;normal&quot;</span>)</a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="kw">head</span>(da6)</a></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1     6.269239    3.500000          1.4         0.2  setosa
-## 2     6.038357    3.000000          1.4         0.2  setosa
-## 3     5.712362    3.396439          1.3         0.2  setosa
-## 4     4.600000    3.169436          1.5         0.2  setosa
-## 5     5.000000    3.660890          1.4         0.2  setosa
-## 6     5.400000    3.114657          1.7         0.4  setosa</code></pre>
+## 1     4.810064    3.500000          1.4         0.2  setosa
+## 2     4.545594    3.000000          1.4         0.2  setosa
+## 3     5.344099    3.639352          1.3         0.2  setosa
+## 4     4.600000    4.267925          1.5         0.2  setosa
+## 5     5.000000    3.371320          1.4         0.2  setosa
+## 6     5.400000    3.749763          1.7         0.4  setosa</code></pre>
 <p>where <code>Species</code> on the right-hand-side defines the grouping variable.</p>
 </div>
 <div id="grouping-data-for-imputation" class="section level3">
