@@ -4,9 +4,6 @@ library(simputation)
 ## ----eval=FALSE---------------------------------------------------------------
 #  install.packages('simputation')
 
-## ----eval=FALSE---------------------------------------------------------------
-#  install.packages('simputation', dependencies=TRUE)
-
 ## ----echo=FALSE---------------------------------------------------------------
 knitr::kable(
   data.frame(
@@ -42,10 +39,9 @@ da3 <- impute_cart(da2, Species ~ .)
 head(da3,10)
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  library(magrittr)
-#  da4 <- dat %>%
-#    impute_lm(Sepal.Length ~ Sepal.Width + Species) %>%
-#    impute_median(Sepal.Length ~ Species) %>%
+#  da4 <- dat |>
+#    impute_lm(Sepal.Length ~ Sepal.Width + Species) |>
+#    impute_median(Sepal.Length ~ Species) |>
 #    impute_cart(Species ~ .)
 
 ## -----------------------------------------------------------------------------
@@ -72,7 +68,7 @@ head(da8)
 #  dat <- iris
 #  dat[1:3,1] <- dat[3:7,2] <- NA
 #  
-#  dat %>% group_by(Species) %>%
+#  dat |> group_by(Species) |>
 #    impute_lm(Sepal.Length ~ Petal.Width)
 
 ## -----------------------------------------------------------------------------

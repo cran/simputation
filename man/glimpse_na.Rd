@@ -35,53 +35,53 @@ Operator \code{\%?>\%} is syntactic sugar: it inserts a \code{glimpse_na} in
 the pipe.
 }
 \examples{
-if (requireNamespace("dplyr")){
-   library(dplyr)
+
+
    
-   irisNA <- iris
-   irisNA[1:3,1] <- irisNA[3:7,2] <- NA
-   
-   # How many NA's?
-   na_status(irisNA)
-   
-   # add an imputation method one at a time
-   iris_imputed <-
-     irisNA \%>\% 
-     glimpse_na() # same as above
-   
-   # ok, glimpse_na says "Sepal.Width" has NA's
-   # fix that:
-   
-   iris_imputed <-
-     irisNA \%>\% 
-     impute_const(Sepal.Width ~ 7) \%>\% 
-     glimpse_na() # end NA
-   
-   # Sepal.Length is having NA's
-   
-   iris_imputed <-
-     irisNA \%>\% 
-     impute_const(Sepal.Width ~ 7) \%>\%
-     impute_cart(Sepal.Length ~ .) \%>\%  
-     glimpse_na() # end NA
-   
-   # in an existing imputation pipeline we can peek with
-   # glimpse_na or \%?>\%
-   
-   iris_imputed <-
-     irisNA \%>\% 
-     glimpse_na() \%>\%     # shows the begin NA
-     impute_const(Sepal.Width ~ 7) \%>\% 
-     glimpse_na() \%>\%     # after 1 imputation
-     impute_cart(Sepal.Length ~ .) \%>\%  
-     glimpse_na()         # end NA
-     
-   # or
-   iris_imputed <-
-     irisNA \%?>\% 
-     impute_const(Sepal.Width ~ 7) \%?>\% 
-     impute_cart(Sepal.Length ~ .)
-     
-   na_status(iris_imputed)  
-}
+irisNA <- iris
+irisNA[1:3,1] <- irisNA[3:7,2] <- NA
+
+# How many NA's?
+na_status(irisNA)
+
+# add an imputation method one at a time
+iris_imputed <-
+  irisNA |> 
+  glimpse_na() # same as above
+
+# ok, glimpse_na says "Sepal.Width" has NA's
+# fix that:
+
+iris_imputed <-
+  irisNA |> 
+  impute_const(Sepal.Width ~ 7) |> 
+  glimpse_na() # end NA
+
+# Sepal.Length is having NA's
+
+iris_imputed <-
+  irisNA |> 
+  impute_const(Sepal.Width ~ 7) |>
+  impute_cart(Sepal.Length ~ .) |>  
+  glimpse_na() # end NA
+
+# in an existing imputation pipeline we can peek with
+# glimpse_na or \%?>\%
+
+iris_imputed <-
+  irisNA |> 
+  glimpse_na() |>     # shows the begin NA
+  impute_const(Sepal.Width ~ 7) |> 
+  glimpse_na() |>     # after 1 imputation
+  impute_cart(Sepal.Length ~ .) |>  
+  glimpse_na()         # end NA
+  
+# or
+iris_imputed <-
+  irisNA \%?>\% 
+  impute_const(Sepal.Width ~ 7) \%?>\% 
+  impute_cart(Sepal.Length ~ .)
+  
+na_status(iris_imputed)  
+
 }

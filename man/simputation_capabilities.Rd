@@ -23,9 +23,8 @@ suggested packages are currently installed (\code{TRUE}) or not
 (\code{FALSE}).
 }
 \description{
-Simputation relies on a number of packages for model estimation
-and/or imputation. Not all of these packages are installed when
-\pkg{simputation} is installed.
+This function has bevome unnecessary as of \code{simputation} 0.2.8 and higher.
+It will be removed from future versions.
 }
 \section{details}{
 
@@ -37,3 +36,4 @@ grabs the warning message (if any) stating that a package is missing.
 implementing statistical models are available.
 }
 
+\keyword{internal}
