@@ -1,9 +1,18 @@
+version 0.2.9
+- Added a new impute_all option to linear and tree model imputation functions,
+  to support predictive mean matching imputation.
+- Fixed predictive mean matching imputation. (Thanks to Susie Jentoft for
+  reporting.) Note that predictive mean matching can now only be used with
+  predictors that support the impute_all option.
+- Fixed Rd bug (thanks to Kurt Hornik for pointing out the changes).
+- Fixed bug in random hot deck (Thanks to GH user sfhalapour for 
+  the PR).
+
 version 0.2.8
 - Package now depends on R >= 4.0.0
 - Examples using |> now in stead of magrittr::%>%
 - fixed bug in impute_knn: VIM backend was ignored. (Thanks to Sander
   Scholtus and Sigrid van Hoek for reporting)
-- 
 
 version 0.2.7
 - Updated C-code for compatability with CLANG compiler (Thanks
@@ -12,7 +21,6 @@ version 0.2.7
 
 version 0.2.6
 - Fixed error in 'impute_shd' caused by VIM update.
-
 
 version 0.2.5
 - CRAN-requested update, avoiding misuse of 'order' on data.frames
@@ -27,7 +35,6 @@ version 0.2.4
 - Fix: Column names with spaces were not handled properly (Thanks to Miles
   McBain)
 - Fix: 'impute_proxy' would crash when imputing a character constant.
-
 
 version 0.2.3
 - switched to 'tinytest' testing framework

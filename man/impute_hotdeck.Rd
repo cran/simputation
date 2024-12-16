@@ -87,8 +87,8 @@ predictors.}
 Observarion Carried Backward. Only for \code{backend="simputation"}}
 
 \item{predictor}{\code{[function]} Imputation to use for predictive part in
-predictive mean matching. Any of the \code{impute_} functions of this
-package (it makes no sense to use a hot-deck imputation).}
+predictive mean matching. Any \code{impute_} function of this package that
+supports the \code{impute_all} argument can be used.}
 
 \item{k}{\code{[numeric]} Number of nearest neighbours to draw the donor from.}
 }
@@ -218,8 +218,8 @@ properties. Biometrics, pp.857--871.
 }
 \seealso{
 Other imputation: 
+\code{\link{impute}()},
 \code{\link{impute_cart}()},
-\code{\link{impute_lm}()},
-\code{\link{impute}()}
+\code{\link{impute_lm}()}
 }
 \concept{imputation}

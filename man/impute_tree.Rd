@@ -11,6 +11,7 @@ impute_cart(
   add_residual = c("none", "observed", "normal"),
   cp,
   na_action = na.rpart,
+  impute_all = FALSE,
   ...
 )
 
@@ -19,6 +20,7 @@ impute_rf(
   formula,
   add_residual = c("none", "observed", "normal"),
   na_action = na.omit,
+  impute_all = FALSE,
   ...
 )
 }
@@ -44,6 +46,10 @@ formula.}
 \item{na_action}{\code{[function]} what to do with missings in training data.
 By default cases with missing values in predicted or predictors are omitted
 (see `Missings in training data').}
+
+\item{impute_all}{\code{[logical]} If FALSE (default) then only missings in
+predicted variables are imputed. If TRUE, predictions are imputed for all
+records and if a prediction cannot be made then NA is imputed.}
 
 \item{...}{further arguments passed to 
 \itemize{
@@ -97,8 +103,8 @@ Breiman, L., 2001. Random forests. Machine learning, 45(1), pp.5-32.
 }
 \seealso{
 Other imputation: 
+\code{\link{impute}()},
 \code{\link{impute_hotdeck}},
-\code{\link{impute_lm}()},
-\code{\link{impute}()}
+\code{\link{impute_lm}()}
 }
 \concept{imputation}

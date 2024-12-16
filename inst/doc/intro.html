@@ -12,93 +12,107 @@
 
 <meta name="author" content="Mark van der Loo" />
 
-<meta name="date" content="2022-06-16" />
+<meta name="date" content="2024-12-16" />
 
 <title>Getting started with simputation</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {  }
+{ }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -107,13 +121,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -319,25 +340,35 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Getting started with simputation</h1>
 <h4 class="author">Mark van der Loo</h4>
-<h4 class="date">2022-06-16</h4>
+<h4 class="date">2024-12-16</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#general-remarks">General remarks</a></li>
-<li><a href="#a-first-example">A first example</a></li>
-<li><a href="#chaining-imputation-methods">Chaining imputation methods</a></li>
-<li><a href="#similar-model-for-multiple-variables">Similar model for multiple variables</a></li>
-<li><a href="#grouping-data-for-imputation">Grouping data for imputation</a></li>
-<li><a href="#specify-your-own-method-with-impute_proxy">Specify your own method with impute_proxy</a></li>
-<li><a href="#imputing-a-dataset-with-models-trained-on-another-dataset">Imputing a dataset with models trained on another dataset</a></li>
-<li><a href="#using-vim-as-much-faster-backend-for-hotdeck-imputations">Using VIM as (much) faster backend for hotdeck imputations</a></li>
+<li><a href="#installation" id="toc-installation">Installation</a></li>
+<li><a href="#general-remarks" id="toc-general-remarks">General
+remarks</a></li>
+<li><a href="#a-first-example" id="toc-a-first-example">A first
+example</a></li>
+<li><a href="#chaining-imputation-methods" id="toc-chaining-imputation-methods">Chaining imputation
+methods</a></li>
+<li><a href="#similar-model-for-multiple-variables" id="toc-similar-model-for-multiple-variables">Similar model for multiple
+variables</a></li>
+<li><a href="#grouping-data-for-imputation" id="toc-grouping-data-for-imputation">Grouping data for
+imputation</a></li>
+<li><a href="#specify-your-own-method-with-impute_proxy" id="toc-specify-your-own-method-with-impute_proxy">Specify your own
+method with impute_proxy</a></li>
+<li><a href="#imputing-a-dataset-with-models-trained-on-another-dataset" id="toc-imputing-a-dataset-with-models-trained-on-another-dataset">Imputing
+a dataset with models trained on another dataset</a></li>
+<li><a href="#using-vim-as-much-faster-backend-for-hotdeck-imputations" id="toc-using-vim-as-much-faster-backend-for-hotdeck-imputations">Using
+VIM as (much) faster backend for hotdeck imputations</a></li>
 </ul>
 </div>
 
 <hr />
-<p>This package offers a number of commonly used single imputation methods, each with a similar and hopefully simple interface. At the moment the following imputation methodology is supported.</p>
+<p>This package offers a number of commonly used single imputation
+methods, each with a similar and hopefully simple interface. At the
+moment the following imputation methodology is supported.</p>
 <ul>
 <li>Model based (optionally add [non-]parametric random residual)
 <ul>
@@ -354,7 +385,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </ul></li>
 <li>Donor imputation (including various donor pool specifications)
 <ul>
-<li>k-nearest neigbour (based on <a href="https://cran.r-project.org/package=gower">gower</a>’s distance)</li>
+<li>k-nearest neigbour (based on <a href="https://cran.r-project.org/package=gower">gower</a>’s
+distance)</li>
 <li>sequential hotdeck (LOCF, NOCB)</li>
 <li>random hotdeck</li>
 <li>Predictive mean matching</li>
@@ -362,15 +394,19 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li>Other
 <ul>
 <li>(groupwise) median imputation (optional random residual)</li>
-<li>Proxy imputation: copy another variable or use a simple transformation to compute imputed values.</li>
+<li>Proxy imputation: copy another variable or use a simple
+transformation to compute imputed values.</li>
 <li>Apply trained models for imputation purposes.</li>
 </ul></li>
 </ul>
 <div id="installation" class="section level3">
 <h3>Installation</h3>
 <p>The latest release of the package can be installed as follows.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="st">&#39;simputation&#39;</span>)</a></code></pre></div>
-<p>This package is a wrapper package. It stands on the shoulders of some great packages that other authors have provided. Below is an overview of the packages that make imputation with <code>simputation</code> possible.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;simputation&#39;</span>)</span></code></pre></div>
+<p>This package is a wrapper package. It stands on the shoulders of some
+great packages that other authors have provided. Below is an overview of
+the packages that make imputation with <code>simputation</code>
+possible.</p>
 <table>
 <thead>
 <tr class="header">
@@ -441,19 +477,27 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="general-remarks" class="section level3">
 <h3>General remarks</h3>
 <p>A call to an imputation function has the following structure.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">impute_<span class="op">&lt;</span>model<span class="op">&gt;</span>(data, formula, [model<span class="op">-</span>specific options])</a></code></pre></div>
-<p>The output is similar to the <code>data</code> argument, except that empty values are imputed (where possible) using the specified model.</p>
-<p>The <code>formula</code> argument speciefies the variables to be imputed, the model specification for <code>&lt;model&gt;</code> and possibly the grouping of the dataset. The structure of a formula object is as follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">IMPUTED <span class="op">~</span><span class="st"> </span>MODEL_SPECIFICATION [ <span class="op">|</span><span class="st"> </span>GROUPING ]</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>impute_<span class="sc">&lt;</span>model<span class="sc">&gt;</span>(data, formula, [model<span class="sc">-</span>specific options])</span></code></pre></div>
+<p>The output is similar to the <code>data</code> argument, except that
+empty values are imputed (where possible) using the specified model.</p>
+<p>The <code>formula</code> argument speciefies the variables to be
+imputed, the model specification for <code>&lt;model&gt;</code> and
+possibly the grouping of the dataset. The structure of a formula object
+is as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>IMPUTED <span class="sc">~</span> MODEL_SPECIFICATION [ <span class="sc">|</span> GROUPING ]</span></code></pre></div>
 <p>where the part between <code>[]</code> is optional.</p>
-<p>In the following, we assume that the reader already has some familiarity with the use of formulas in R (e.g. when specifying linear models) and statistical models commonly used in imputation.</p>
+<p>In the following, we assume that the reader already has some
+familiarity with the use of formulas in R (e.g. when specifying linear
+models) and statistical models commonly used in imputation.</p>
 </div>
 <div id="a-first-example" class="section level3">
 <h3>A first example</h3>
-<p>First create a copy of the iris dataset with some empty values in columns 1 (<code>Sepal.Length</code>), 2 (<code>Sepal.Width</code>) and 5 (<code>Species</code>).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">dat &lt;-<span class="st"> </span>iris</a>
-<a class="sourceLine" id="cb4-2" title="2">dat[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span>dat[<span class="dv">3</span><span class="op">:</span><span class="dv">7</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span>dat[<span class="dv">8</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">5</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="kw">head</span>(dat,<span class="dv">10</span>)</a></code></pre></div>
+<p>First create a copy of the iris dataset with some empty values in
+columns 1 (<code>Sepal.Length</code>), 2 (<code>Sepal.Width</code>) and
+5 (<code>Species</code>).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> iris</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>dat[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> dat[<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> dat[<span class="dv">8</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">head</span>(dat,<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1            NA         3.5          1.4         0.2  setosa
 ## 2            NA         3.0          1.4         0.2  setosa
@@ -465,24 +509,32 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 8           5.0         3.4          1.5         0.2    &lt;NA&gt;
 ## 9           4.4         2.9          1.4         0.2    &lt;NA&gt;
 ## 10          4.9         3.1          1.5         0.1    &lt;NA&gt;</code></pre>
-<p>To impute <code>Sepal.Length</code> using a linear model use the <code>impute_lm</code> function.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">da1 &lt;-<span class="st"> </span><span class="kw">impute_lm</span>(dat, Sepal.Length <span class="op">~</span><span class="st"> </span>Sepal.Width <span class="op">+</span><span class="st"> </span>Species)</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw">head</span>(da1,<span class="dv">3</span>)</a></code></pre></div>
+<p>To impute <code>Sepal.Length</code> using a linear model use the
+<code>impute_lm</code> function.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>da1 <span class="ot">&lt;-</span> <span class="fu">impute_lm</span>(dat, Sepal.Length <span class="sc">~</span> Sepal.Width <span class="sc">+</span> Species)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">head</span>(da1,<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1     5.076579         3.5          1.4         0.2  setosa
 ## 2     4.675654         3.0          1.4         0.2  setosa
 ## 3           NA          NA          1.3         0.2  setosa</code></pre>
-<p>Observe that the 3rd value is not imputed. This is because one of the predictor variables is missing so the linear model does not produce an output. <code>simputation</code> does not report such cases but simply returns the partly imputed result. The remaining value can be imputed using a new linear model or as shown below, using the group median.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">da2 &lt;-<span class="st"> </span><span class="kw">impute_median</span>(da1, Sepal.Length <span class="op">~</span><span class="st"> </span>Species)</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw">head</span>(da2,<span class="dv">3</span>)</a></code></pre></div>
+<p>Observe that the 3rd value is not imputed. This is because one of the
+predictor variables is missing so the linear model does not produce an
+output. <code>simputation</code> does not report such cases but simply
+returns the partly imputed result. The remaining value can be imputed
+using a new linear model or as shown below, using the group median.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>da2 <span class="ot">&lt;-</span> <span class="fu">impute_median</span>(da1, Sepal.Length <span class="sc">~</span> Species)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">head</span>(da2,<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1     5.076579         3.5          1.4         0.2  setosa
 ## 2     4.675654         3.0          1.4         0.2  setosa
 ## 3     5.000000          NA          1.3         0.2  setosa</code></pre>
-<p>Here, <code>Species</code> is used to group the data before computing the medians.</p>
-<p>Finally, we impute the <code>Species</code> variable using a <a href="https://en.wikipedia.org/wiki/Decision_tree_learning">decision tree</a> model. All variables except <code>Species</code> are used as predictor.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">da3 &lt;-<span class="st"> </span><span class="kw">impute_cart</span>(da2, Species <span class="op">~</span><span class="st"> </span>.)</a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw">head</span>(da3,<span class="dv">10</span>)</a></code></pre></div>
+<p>Here, <code>Species</code> is used to group the data before computing
+the medians.</p>
+<p>Finally, we impute the <code>Species</code> variable using a <a href="https://en.wikipedia.org/wiki/Decision_tree_learning">decision
+tree</a> model. All variables except <code>Species</code> are used as
+predictor.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>da3 <span class="ot">&lt;-</span> <span class="fu">impute_cart</span>(da2, Species <span class="sc">~</span> .)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">head</span>(da3,<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1      5.076579         3.5          1.4         0.2  setosa
 ## 2      4.675654         3.0          1.4         0.2  setosa
@@ -497,17 +549,21 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="chaining-imputation-methods" class="section level3">
 <h3>Chaining imputation methods</h3>
-<p>Using the <code>|&gt;</code> operator (R 4.0.0 or later) allows for a very compact specification of the above examples.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">da4 &lt;-<span class="st"> </span>dat <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw">impute_lm</span>(Sepal.Length <span class="op">~</span><span class="st"> </span>Sepal.Width <span class="op">+</span><span class="st"> </span>Species) <span class="op">|</span><span class="er">&gt;</span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw">impute_median</span>(Sepal.Length <span class="op">~</span><span class="st"> </span>Species) <span class="op">|</span><span class="er">&gt;</span></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span><span class="kw">impute_cart</span>(Species <span class="op">~</span><span class="st"> </span>.)</a></code></pre></div>
+<p>Using the <code>|&gt;</code> operator (R 4.0.0 or later) allows for a
+very compact specification of the above examples.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>da4 <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">impute_lm</span>(Sepal.Length <span class="sc">~</span> Sepal.Width <span class="sc">+</span> Species) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">impute_median</span>(Sepal.Length <span class="sc">~</span> Species) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">impute_cart</span>(Species <span class="sc">~</span> .)</span></code></pre></div>
 </div>
 <div id="similar-model-for-multiple-variables" class="section level3">
 <h3>Similar model for multiple variables</h3>
-<p>The simputation package allows users to specify an imputation model for multiple variables at once. For example, to impute both <code>Sepal.Length</code> and <code>Sepal.Width</code> with a similar robust linear model, do the following.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">da5 &lt;-<span class="st"> </span><span class="kw">impute_rlm</span>(dat, Sepal.Length <span class="op">+</span><span class="st"> </span>Sepal.Width <span class="op">~</span><span class="st"> </span>Petal.Length <span class="op">+</span><span class="st"> </span>Species)</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="kw">head</span>(da5)</a></code></pre></div>
+<p>The simputation package allows users to specify an imputation model
+for multiple variables at once. For example, to impute both
+<code>Sepal.Length</code> and <code>Sepal.Width</code> with a similar
+robust linear model, do the following.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>da5 <span class="ot">&lt;-</span> <span class="fu">impute_rlm</span>(dat, Sepal.Length <span class="sc">+</span> Sepal.Width <span class="sc">~</span> Petal.Length <span class="sc">+</span> Species)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">head</span>(da5)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1     4.945416    3.500000          1.4         0.2  setosa
 ## 2     4.945416    3.000000          1.4         0.2  setosa
@@ -515,29 +571,41 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 4     4.600000    3.440107          1.5         0.2  setosa
 ## 5     5.000000    3.409543          1.4         0.2  setosa
 ## 6     5.400000    3.501236          1.7         0.4  setosa</code></pre>
-<p>The function will model <code>Sepal.Length</code> and <code>Sepal.Width</code> against the predictor variables independently and impute them. The order of variables in the specification is therefore not important for the result.</p>
-<p>In general, the left-hand side of the model formula is analyzed by <code>simputation</code>, combined appropriately with the right hand side and then passed through to the underlying modeling routine. Simputation also understands the <code>&quot;.&quot;</code> syntax, which stands for “every variable not otherwise present” and the “-” sign to remove variables from a formula. For example, the next expression imputes every variable except <code>Species</code> with the group mean plus a normally distributed random residual.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">da6 &lt;-<span class="st"> </span><span class="kw">impute_lm</span>(dat, . <span class="op">-</span><span class="st"> </span>Species <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>Species, <span class="dt">add_residual =</span> <span class="st">&quot;normal&quot;</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">head</span>(da6)</a></code></pre></div>
+<p>The function will model <code>Sepal.Length</code> and
+<code>Sepal.Width</code> against the predictor variables independently
+and impute them. The order of variables in the specification is
+therefore not important for the result.</p>
+<p>In general, the left-hand side of the model formula is analyzed by
+<code>simputation</code>, combined appropriately with the right hand
+side and then passed through to the underlying modeling routine.
+Simputation also understands the <code>&quot;.&quot;</code> syntax, which stands
+for “every variable not otherwise present” and the “-” sign to remove
+variables from a formula. For example, the next expression imputes every
+variable except <code>Species</code> with the group mean plus a normally
+distributed random residual.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>da6 <span class="ot">&lt;-</span> <span class="fu">impute_lm</span>(dat, . <span class="sc">-</span> Species <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> Species, <span class="at">add_residual =</span> <span class="st">&quot;normal&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">head</span>(da6)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1     4.705396    3.500000          1.4         0.2  setosa
-## 2     4.202146    3.000000          1.4         0.2  setosa
-## 3     4.777519    3.650505          1.3         0.2  setosa
-## 4     4.600000    3.466548          1.5         0.2  setosa
-## 5     5.000000    2.886802          1.4         0.2  setosa
-## 6     5.400000    3.016729          1.7         0.4  setosa</code></pre>
-<p>where <code>Species</code> on the right-hand-side defines the grouping variable.</p>
+## 1     4.951849    3.500000          1.4         0.2  setosa
+## 2     5.568217    3.000000          1.4         0.2  setosa
+## 3     5.487856    3.321004          1.3         0.2  setosa
+## 4     4.600000    3.449319          1.5         0.2  setosa
+## 5     5.000000    2.644668          1.4         0.2  setosa
+## 6     5.400000    3.403392          1.7         0.4  setosa</code></pre>
+<p>where <code>Species</code> on the right-hand-side defines the
+grouping variable.</p>
 </div>
 <div id="grouping-data-for-imputation" class="section level3">
 <h3>Grouping data for imputation</h3>
-<p>Use <code>|</code> in the <code>formula</code> argument to specify groups.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># New data set, leaving Species intact</span></a>
-<a class="sourceLine" id="cb17-2" title="2">dat &lt;-<span class="st"> </span>iris</a>
-<a class="sourceLine" id="cb17-3" title="3">dat[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span>dat[<span class="dv">3</span><span class="op">:</span><span class="dv">7</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb17-4" title="4"></a>
-<a class="sourceLine" id="cb17-5" title="5"><span class="co"># split dat into groups according to &#39;Species&#39;, impute, combine and return.</span></a>
-<a class="sourceLine" id="cb17-6" title="6">da8 &lt;-<span class="st"> </span><span class="kw">impute_lm</span>(dat, Sepal.Length <span class="op">~</span><span class="st"> </span>Petal.Width <span class="op">|</span><span class="st"> </span>Species)</a>
-<a class="sourceLine" id="cb17-7" title="7"><span class="kw">head</span>(da8)</a></code></pre></div>
+<p>Use <code>|</code> in the <code>formula</code> argument to specify
+groups.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># New data set, leaving Species intact</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>dat <span class="ot">&lt;-</span> iris</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>dat[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> dat[<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co"># split dat into groups according to &#39;Species&#39;, impute, combine and return.</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>da8 <span class="ot">&lt;-</span> <span class="fu">impute_lm</span>(dat, Sepal.Length <span class="sc">~</span> Petal.Width <span class="sc">|</span> Species)</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="fu">head</span>(da8)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1     4.968092         3.5          1.4         0.2  setosa
 ## 2     4.968092         3.0          1.4         0.2  setosa
@@ -545,30 +613,37 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 4     4.600000          NA          1.5         0.2  setosa
 ## 5     5.000000          NA          1.4         0.2  setosa
 ## 6     5.400000          NA          1.7         0.4  setosa</code></pre>
-<p>If one or more grouping variables are specified (multiple are specified by separating them with <code>+</code>), imputation takes place as follows.</p>
+<p>If one or more grouping variables are specified (multiple are
+specified by separating them with <code>+</code>), imputation takes
+place as follows.</p>
 <ol style="list-style-type: decimal">
-<li>Split the data into subsets according to the values of the grouping variables.</li>
+<li>Split the data into subsets according to the values of the grouping
+variables.</li>
 <li>Estimate the model for each data subset and impute.</li>
 <li>Combine the imputed subsets.</li>
 </ol>
-<p>Simputation also integrates with the <a href="https://cran.r-project.org/package=dplyr">dplyr</a> package and recognizes grouping specified with <code>group_by</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">library</span>(magrittr)</a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb19-3" title="3"></a>
-<a class="sourceLine" id="cb19-4" title="4">dat &lt;-<span class="st"> </span>iris</a>
-<a class="sourceLine" id="cb19-5" title="5">dat[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span>dat[<span class="dv">3</span><span class="op">:</span><span class="dv">7</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb19-6" title="6"></a>
-<a class="sourceLine" id="cb19-7" title="7">dat <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">group_by</span>(Species) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb19-8" title="8"><span class="st">  </span><span class="kw">impute_lm</span>(Sepal.Length <span class="op">~</span><span class="st"> </span>Petal.Width)</a></code></pre></div>
+<p>Simputation also integrates with the <a href="https://cran.r-project.org/package=dplyr">dplyr</a> package and
+recognizes grouping specified with <code>group_by</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>dat <span class="ot">&lt;-</span> iris</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>dat[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> dat[<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Species) <span class="sc">|&gt;</span> </span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  <span class="fu">impute_lm</span>(Sepal.Length <span class="sc">~</span> Petal.Width)</span></code></pre></div>
 </div>
 <div id="specify-your-own-method-with-impute_proxy" class="section level3">
 <h3>Specify your own method with impute_proxy</h3>
-<p>The <code>impute_proxy</code> function is somewhat special since it allows you to define an imputation method in the right-hand-side of the formula object. Below we implement a `robust ratio imputation’ (for what its worth) as example.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">dat &lt;-<span class="st"> </span>iris</a>
-<a class="sourceLine" id="cb20-2" title="2">dat[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span>dat[<span class="dv">3</span><span class="op">:</span><span class="dv">7</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb20-3" title="3"></a>
-<a class="sourceLine" id="cb20-4" title="4">dat &lt;-<span class="st"> </span><span class="kw">impute_proxy</span>(dat, Sepal.Length <span class="op">~</span><span class="st"> </span><span class="kw">median</span>(Sepal.Length,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)<span class="op">/</span><span class="kw">median</span>(Sepal.Width, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>Sepal.Width <span class="op">|</span><span class="st"> </span>Species)</a>
-<a class="sourceLine" id="cb20-5" title="5"><span class="kw">head</span>(dat)</a></code></pre></div>
+<p>The <code>impute_proxy</code> function is somewhat special since it
+allows you to define an imputation method in the right-hand-side of the
+formula object. Below we implement a `robust ratio imputation’ (for what
+its worth) as example.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> iris</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>dat[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> dat[<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">impute_proxy</span>(dat, Sepal.Length <span class="sc">~</span> <span class="fu">median</span>(Sepal.Length,<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">median</span>(Sepal.Width, <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="sc">*</span> Sepal.Width <span class="sc">|</span> Species)</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1     5.147059         3.5          1.4         0.2  setosa
 ## 2     4.411765         3.0          1.4         0.2  setosa
@@ -579,12 +654,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="imputing-a-dataset-with-models-trained-on-another-dataset" class="section level3">
 <h3>Imputing a dataset with models trained on another dataset</h3>
-<p>This can be done with the <code>impute</code> function. To use it, train your model in the way you are used to.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">m &lt;-<span class="st"> </span><span class="kw">lm</span>(Sepal.Length <span class="op">~</span><span class="st"> </span>Sepal.Width <span class="op">+</span><span class="st"> </span>Species, <span class="dt">data=</span>iris)</a></code></pre></div>
+<p>This can be done with the <code>impute</code> function. To use it,
+train your model in the way you are used to.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sepal.Length <span class="sc">~</span> Sepal.Width <span class="sc">+</span> Species, <span class="at">data=</span>iris)</span></code></pre></div>
 <p>Next, use this model to impute a dataset.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">dat &lt;-<span class="st"> </span>iris</a>
-<a class="sourceLine" id="cb23-2" title="2">dat[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span>dat[<span class="dv">3</span><span class="op">:</span><span class="dv">7</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="kw">head</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> iris</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>dat[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> dat[<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1           NA         3.5          1.4         0.2  setosa
 ## 2           NA         3.0          1.4         0.2  setosa
@@ -592,8 +668,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 4          4.6          NA          1.5         0.2  setosa
 ## 5          5.0          NA          1.4         0.2  setosa
 ## 6          5.4          NA          1.7         0.4  setosa</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">impute</span>(dat, Sepal.Length <span class="op">~</span><span class="st"> </span>m)</a>
-<a class="sourceLine" id="cb25-2" title="2"><span class="kw">head</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">impute</span>(dat, Sepal.Length <span class="sc">~</span> m)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1     5.063856         3.5          1.4         0.2  setosa
 ## 2     4.662076         3.0          1.4         0.2  setosa
@@ -605,16 +681,25 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="using-vim-as-much-faster-backend-for-hotdeck-imputations" class="section level3">
 <h3>Using VIM as (much) faster backend for hotdeck imputations</h3>
-<p>The <a href="https://CRAN.R-project.org/package=VIM">VIM</a> package offers fast implementations for sequential and random hotdeck procedures (based on the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package). It also offers somewhat finer control over certain features such as donor selection. For this reason, the sequential, random, and k-nearest neighbours hotdeck imputation procedures can be told to use VIM as backend.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb27-2" title="2">  <span class="dt">foo =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="ot">NA</span>,<span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb27-3" title="3">  , <span class="dt">bar =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="ot">NA</span>,<span class="dv">8</span>,<span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb27-4" title="4">)</a>
-<a class="sourceLine" id="cb27-5" title="5"><span class="co"># sequential hotdeck imputation, no sorting variables</span></a>
-<a class="sourceLine" id="cb27-6" title="6"><span class="kw">impute_shd</span>(dat, . <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">pool=</span><span class="st">&quot;complete&quot;</span>)</a>
-<a class="sourceLine" id="cb27-7" title="7"><span class="kw">impute_shd</span>(dat, . <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">pool=</span><span class="st">&quot;univariate&quot;</span>)</a>
-<a class="sourceLine" id="cb27-8" title="8"><span class="kw">impute_shd</span>(dat, .<span class="op">~</span><span class="dv">1</span>, <span class="dt">backend=</span><span class="st">&quot;VIM&quot;</span>)</a></code></pre></div>
-<p>Note that VIM uses last observation carried forward by default, and the specification of donor pool is on a per-variable basis (this cannot be changed). See <code>?impute_shd</code> for the full specification.</p>
+<p>The <a href="https://CRAN.R-project.org/package=VIM">VIM</a> package
+offers fast implementations for sequential and random hotdeck procedures
+(based on the <a href="https://CRAN.R-project.org/package=data.table">data.table</a>
+package). It also offers somewhat finer control over certain features
+such as donor selection. For this reason, the sequential, random, and
+k-nearest neighbours hotdeck imputation procedures can be told to use
+VIM as backend.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="at">foo =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="cn">NA</span>,<span class="dv">4</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  , <span class="at">bar =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="cn">NA</span>,<span class="dv">8</span>,<span class="cn">NA</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>)</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="co"># sequential hotdeck imputation, no sorting variables</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="fu">impute_shd</span>(dat, . <span class="sc">~</span> <span class="dv">1</span>, <span class="at">pool=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="fu">impute_shd</span>(dat, . <span class="sc">~</span> <span class="dv">1</span>, <span class="at">pool=</span><span class="st">&quot;univariate&quot;</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="fu">impute_shd</span>(dat, .<span class="sc">~</span><span class="dv">1</span>, <span class="at">backend=</span><span class="st">&quot;VIM&quot;</span>)</span></code></pre></div>
+<p>Note that VIM uses last observation carried forward by default, and
+the specification of donor pool is on a per-variable basis (this cannot
+be changed). See <code>?impute_shd</code> for the full
+specification.</p>
 </div>
 
 

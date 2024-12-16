@@ -5,13 +5,12 @@
 #' To get started, see the \href{../doc/intro.html}{introductory vignette}.
 #' 
 #' 
-#' @name simputation
+#' @name simputation-package
 #' @docType package
 #' @import  stats
 #' @importFrom MASS rlm 
 #' @importFrom utils installed.packages
 #' @importFrom rpart rpart prune na.rpart
 #' @importFrom gower gower_topn
-#' @useDynLib simputation, .registration=TRUE
-{}
+"_PACKAGE"
 

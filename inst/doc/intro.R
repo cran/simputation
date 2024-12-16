@@ -1,8 +1,8 @@
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 library(simputation)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  install.packages('simputation')
+# install.packages('simputation')
 
 ## ----echo=FALSE---------------------------------------------------------------
 knitr::kable(
@@ -15,11 +15,11 @@ knitr::kable(
   )
 )
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  impute_<model>(data, formula, [model-specific options])
+## ----eval=FALSE---------------------------------------------------------------
+# impute_<model>(data, formula, [model-specific options])
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  IMPUTED ~ MODEL_SPECIFICATION [ | GROUPING ]
+## ----eval=FALSE---------------------------------------------------------------
+# IMPUTED ~ MODEL_SPECIFICATION [ | GROUPING ]
 
 ## -----------------------------------------------------------------------------
 dat <- iris
@@ -38,11 +38,11 @@ head(da2,3)
 da3 <- impute_cart(da2, Species ~ .)
 head(da3,10)
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  da4 <- dat |>
-#    impute_lm(Sepal.Length ~ Sepal.Width + Species) |>
-#    impute_median(Sepal.Length ~ Species) |>
-#    impute_cart(Species ~ .)
+## ----eval=FALSE---------------------------------------------------------------
+# da4 <- dat |>
+#   impute_lm(Sepal.Length ~ Sepal.Width + Species) |>
+#   impute_median(Sepal.Length ~ Species) |>
+#   impute_cart(Species ~ .)
 
 ## -----------------------------------------------------------------------------
 da5 <- impute_rlm(dat, Sepal.Length + Sepal.Width ~ Petal.Length + Species)
@@ -62,14 +62,14 @@ da8 <- impute_lm(dat, Sepal.Length ~ Petal.Width | Species)
 head(da8)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  library(magrittr)
-#  library(dplyr)
-#  
-#  dat <- iris
-#  dat[1:3,1] <- dat[3:7,2] <- NA
-#  
-#  dat |> group_by(Species) |>
-#    impute_lm(Sepal.Length ~ Petal.Width)
+# library(magrittr)
+# library(dplyr)
+# 
+# dat <- iris
+# dat[1:3,1] <- dat[3:7,2] <- NA
+# 
+# dat |> group_by(Species) |>
+#   impute_lm(Sepal.Length ~ Petal.Width)
 
 ## -----------------------------------------------------------------------------
 dat <- iris
@@ -90,12 +90,12 @@ dat <- impute(dat, Sepal.Length ~ m)
 head(dat)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  dat <- data.frame(
-#    foo = c(1,2,NA,4)
-#    , bar = c(1,NA,8,NA)
-#  )
-#  # sequential hotdeck imputation, no sorting variables
-#  impute_shd(dat, . ~ 1, pool="complete")
-#  impute_shd(dat, . ~ 1, pool="univariate")
-#  impute_shd(dat, .~1, backend="VIM")
+# dat <- data.frame(
+#   foo = c(1,2,NA,4)
+#   , bar = c(1,NA,8,NA)
+# )
+# # sequential hotdeck imputation, no sorting variables
+# impute_shd(dat, . ~ 1, pool="complete")
+# impute_shd(dat, . ~ 1, pool="univariate")
+# impute_shd(dat, .~1, backend="VIM")
 

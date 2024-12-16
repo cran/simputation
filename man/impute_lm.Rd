@@ -11,6 +11,7 @@ impute_lm(
   formula,
   add_residual = c("none", "observed", "normal"),
   na_action = na.omit,
+  impute_all = FALSE,
   ...
 )
 
@@ -19,6 +20,7 @@ impute_rlm(
   formula,
   add_residual = c("none", "observed", "normal"),
   na_action = na.omit,
+  impute_all = FALSE,
   ...
 )
 
@@ -27,6 +29,7 @@ impute_en(
   formula,
   add_residual = c("none", "observed", "normal"),
   na_action = na.omit,
+  impute_all = FALSE,
   family = c("gaussian", "poisson"),
   s = 0.01,
   ...
@@ -48,6 +51,10 @@ predicted variables.}
 \item{na_action}{\code{[function]} what to do with missings in training data.
 By default cases with missing values in predicted or predictors are omitted
 (see `Missings in training data').}
+
+\item{impute_all}{\code{[logical]} If FALSE (default) then only missings in
+predicted variables are imputed. If TRUE, predictions are imputed for all
+records and if a prediction cannot be made then NA is imputed.}
 
 \item{...}{further arguments passed to 
 \itemize{
@@ -161,8 +168,8 @@ Methodology), 67(2), pp.301-320.
 \href{../doc/intro.html}{Getting started with simputation},
 
 Other imputation: 
+\code{\link{impute}()},
 \code{\link{impute_cart}()},
-\code{\link{impute_hotdeck}},
-\code{\link{impute}()}
+\code{\link{impute_hotdeck}}
 }
 \concept{imputation}
